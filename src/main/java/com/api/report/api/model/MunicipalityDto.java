@@ -1,5 +1,6 @@
 package com.api.report.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 public class MunicipalityDto implements PublicDto {
     @Id // PK 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성 (1,2,3,...)
+    @JsonIgnore
     private long municipalityNumber;
     private String target;
     private String region;

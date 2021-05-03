@@ -18,4 +18,7 @@ public class MunicipalityService {
         municipalityRepository.findAll().forEach(e->list.add(e));
         return list;
     }
+    public MunicipalityDto findByRegion(String Region){
+        return municipalityRepository.findByRegion(Region);
+    }
 }
