@@ -25,7 +25,7 @@ public class ApiApplication {
     @Bean
     public CommandLineRunner run(MunicipalityRepository municipalityRepository) throws Exception {
         return (String[] args) -> {
-         List<MunicipalityDto> list =  readDataFromCsv("D:/2019경력공채_서버개발_사전과제1_지자체협약지원정보_16년12월현재__최종.csv");
+         List<MunicipalityDto> list =  readDataFromCsv("/Users/imhyobin/Downloads/2019경력공채_서버개발_사전과제1_지자체협약지원정보_16년12월현재__최종.csv");
             for (MunicipalityDto dto : list) {
                 municipalityRepository.save(dto);
             }
