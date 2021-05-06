@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface MunicipalityRepository extends JpaRepository<MunicipalityDto,Long> {
-    MunicipalityDto findByRegion(String region);
+public interface MunicipalityRepository extends JpaRepository<MunicipalityDto,String> {
+    Optional<MunicipalityDto> findByRegion(String region);
     List<MunicipalityDto> findAll();
+
 }

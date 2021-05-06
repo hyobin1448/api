@@ -8,12 +8,9 @@ import javax.persistence.*;
 @Data // 자동 getter, setter
 @Entity (name = "municipality")// Table 매핑
 public class MunicipalityDto implements PublicDto {
-    @Id // PK 설정
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성 (1,2,3,...)
-    @JsonIgnore
-    private long municipalityNumber;
-    private String target;
+    @Id // PK 설정;
     private String region;
+    private String target;
     @Column(name = "purpose_use")
     private String usage;
     @Column(name = "application_limit")

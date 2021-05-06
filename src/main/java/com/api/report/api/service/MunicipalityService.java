@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MunicipalityService {
@@ -19,6 +20,25 @@ public class MunicipalityService {
         return list;
     }
     public MunicipalityDto findByRegion(String Region){
-        return municipalityRepository.findByRegion(Region);
+        Optional<MunicipalityDto> dto = municipalityRepository.findById(Region);
+        return dto.get();
     }
+
+    public MunicipalityDto updateMunicipality(MunicipalityDto updateDto){
+        Optional<MunicipalityDto> dto = municipalityRepository.findById(updateDto.getRegion());
+        dto.ifPresent(selectUser->{
+            selectUser.setInstitute(updateDto.getInstitute());
+            selectUser.setLimit(updateDto.getLimit());
+            selectUser.setMgmt(updateDto.getMgmt());
+            selectUser.setRate(updateDto.getRate());
+            selectUser.setUsage(updateDto.getUsage());
+            selectUser.setReception(updateDto.getReception());
+            selectUser.setTarget(updateDto.getTarget());
+            municipalityRepository.save(selectUser);
+        });
+        return dto.get();
+    }
+//    public List<MunicipalityDto> searchListAndSort(int count){
+//
+//    }
 }
