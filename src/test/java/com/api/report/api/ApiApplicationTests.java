@@ -59,4 +59,9 @@ class ApiApplicationTests {
         assertEquals("강릉지점",updateDto.getMgmt());
         assertEquals("강릉시 소재 영업점",updateDto.getReception());
     }
+    @Test
+    void testFindAllandSort(){
+        List<String> list = municipalityService.searchListAndSort(10);
+        assertEquals(98,list.size());
+    }
 }

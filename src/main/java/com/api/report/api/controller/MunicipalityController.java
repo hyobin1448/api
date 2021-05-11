@@ -26,4 +26,8 @@ public class MunicipalityController {
     public MunicipalityDto updateMunicipality(MunicipalityDto dto){
         return service.updateMunicipality(dto);
     }
+    @GetMapping(path = "/searchListAndSort")
+    public List<String> searchListAndSort(int count){
+        return service.searchListAndSort(count);
+    }
 }

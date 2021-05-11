@@ -3,6 +3,10 @@ package com.api.report.api.service;
 import com.api.report.api.dao.MunicipalityRepository;
 import com.api.report.api.model.MunicipalityDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,7 +42,10 @@ public class MunicipalityService {
         });
         return dto.get();
     }
-//    public List<MunicipalityDto> searchListAndSort(int count){
-//
-//    }
+    public List<String> searchListAndSort(int count){
+        List<String> list = new ArrayList<>();
+        municipalityRepository.findByRegionList(PageRequest.of(0,count))
+                .forEach(e->list.add(e));
+        return list;
+    }
 }
