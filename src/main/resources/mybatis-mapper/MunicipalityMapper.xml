@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.api.report.api.repository.MunicipalityRepository">
+
+    <select id="searchMunicipalityItem" resultType="com.api.report.api.model.MunicipalityEntityDto">
+        SELECT
+        municipality_number as id,
+        institute,
+        application_limit as 'limit',
+        mgmt,
+        rate,
+        reception,
+        m.name as region,
+        target,
+        purpose_use as 'usage'
+        FROM municipality_entity e INNER JOIN municipality m on e.region = m.code
+        WHERE m.name = #{region}
+    </select>
+    <select id="searchMunicipalityList" resultType="com.api.report.api.model.MunicipalityEntityDto">
+        SELECT
+        municipality_number as id,
+        institute,
+        application_limit as 'limit',
+        mgmt,
+        rate,
+        reception,
+        m.name as region,
+        target,
+        purpose_use as 'usage'
+        FROM municipality_entity e INNER JOIN municipality m on e.region = m.code
+        ORDER BY region
+    </select>
+    <select id="searchRegionList" resultType="java.lang.String">
+        SELECT
+            m.name as region
+        FROM municipality_entity e INNER JOIN municipality m on e.region = m.code
+        ORDER BY
+        REPLACE(REPLACE(REPLACE(e.application_limit,' ',''),'억원이내','000000000'),'백만원이내','0000000') * 1 DESC,
+        (SUBSTRING_INDEX(e.rate,'~',-1)+SUBSTRING_INDEX(e.rate,'~',1))/2
+        limit #{count}
+    </select>
+    <insert id="insertItem" parameterType="com.api.report.api.model.MunicipalityEntityDto">
+        INSERT INTO municipality_entity
+        (municipality_number,
+        institute,
+        application_limit,
+        mgmt,
+        rate,
+        reception,
+        region,
+        target,
+        purpose_use)
+        VALUES
+        (#{id},
+        #{institute},
+        #{limit},
+        #{mgmt},
+        #{rate},
+        #{reception},
+        (SELECT code FROM municipality WHERE name = #{region}),
+        #{target},
+        #{usage})
+    </insert>
+    <update id="updateItem" parameterType="com.api.report.api.model.MunicipalityEntityDto">
+        UPDATE municipality_entity
+        SET
+        institute = #{institute},
+        application_limit = #{limit},
+        mgmt = #{mgmt},
+        rate = #{rate},
+        reception = #{reception},
+        target = #{target},
+        purpose_use = #{usage}
+        WHERE region = (SELECT code FROM municipality WHERE name = #{region})
+    </update>
+    <select id="searchMinRate" resultType="String">
+        SELECT institute FROM municipality_entity WHERE rate = (SELECT MIN(rate) FROM municipality_entity)
+    </select>
+</mapper>
